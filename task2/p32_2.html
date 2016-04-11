@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<script>
+		function WeekTemps(){
+			this.dataStore = [[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+							 ,[2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2]
+							 ,[3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3]
+
+
+			];
+		}
+
+		WeekTemps.prototype.add = function(iMonth,iDay,temp){
+			this.dataStore[iMonth][iDay] = temp;
+		}
+
+		WeekTemps.prototype.average_month = function(iMonth) {
+			var total = 0;
+			for(var i = 0 ; i < this.dataStore[iMonth].length ; i++){
+				total += this.dataStore[iMonth][i];
+			}
+			return (total/i).toFixed(2);
+		}
+
+		WeekTemps.prototype.average_week = function(iMonth,iWeek) {
+			var total = 0;
+			var iStart = (iWeek-1) * 7;
+			for(var i = iStart ; i < this.dataStore[iMonth].length && i < iStart + 7; i++){
+				total += this.dataStore[iMonth][i];
+			}
+			return (total/(i-iStart)).toFixed(2);
+		}
+
+
+		//只是为了给一定的算法，第0周即第1周
+		WeekTemps.prototype.average_weeks = function(){
+			var months = []
+			/*var weeks = [];*/
+			for(var month = 0 ; month < this.dataStore.length; month++){
+				months[month] ={};
+				months[month].weeks = [0,0,0,0,0];
+				for(var day = 0 ; day < this.dataStore[month].length;day++){
+					iw = parseInt(day/7);
+					console.log(this.dataStore[month][day]);
+					months[month].weeks[iw] += this.dataStore[month][day];
+				}
+
+				for(var i = 0 ; i < 4; i++){
+					months[month].weeks[i] /= 7;
+				}
+				if(iw == 4){
+					months[month].weeks[4] /= (day-28);
+				}
+			}
+			return months;
+		}
+
+		var week = new WeekTemps();
+		console.log(week.average_month(0));
+		console.log(week.average_week(2,2));
+		console.log(week.average_weeks());
+
+
+
+	</script>
+</body>
+</html>
