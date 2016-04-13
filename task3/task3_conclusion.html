@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<script>
+		function List(){
+			this.dataStore = [];
+			this.pos = 0;
+			this.listsize = 0;
+		}
+
+		List.prototype.append = function(element){
+			this.dataStore[this.listsize++] = element;
+
+		}
+
+		List.prototype.find = function(element) {
+			for(var i = 0 ; i < this.dataStore.length ; i++){
+				if(this.dataStore[i] == element){
+					return i;
+				}
+			}
+			return -1;
+		}
+
+		List.prototype.remove = function(element){
+			var foundAt = this.find(element);
+			if(foundAt >= 0){
+				this.dataStore.splice(foundAt,1);
+				this.listsize--;
+				return true;
+			}
+			return false;
+		}
+
+		List.prototype.length = function(element){
+			return this.listsize;
+		}
+
+		List.prototype.toString = function(element){
+			return this.dataStore;
+		}
+
+		List.prototype.insert = function(element,after){
+			var foundAt = this.find(after);
+			if(foundAt >= 0){
+				this.dataStore.splice(foundAt,element);
+				this.listsize++;
+			}
+		}
+
+		List.prototype.clear = function(){
+			delete this.dataStore;
+			this.dataStore = [];
+			this.pos = this.listsize = 0;
+		}
+
+		List.prototype.contains = function(element){
+			var foundAt = find(element);
+			return foundAt >= 0 ? true:false;
+		}
+
+		List.prototype.front = function(){
+			this.pos = 0;
+		}
+
+		List.prototype.end = function(){
+			this.pos = this.listsize - 1;
+		}
+
+		List.prototype.prev = function(){
+			if(this.pos > 0){
+				this.pos--;
+			}
+		}
+
+		List.prototype.next = function(){
+			if(this.pos < this.listsize - 1){
+				this.pos++;
+			}
+		}
+
+		List.prototype.currPos = function(){
+			return this.pos;
+		}
+
+		List.prototype.moveTo = function(position){
+			this.pos = position;
+		}
+
+		List.prototype.getElement = function(){
+			return this.dataStore[this.pos];
+		}
+
+		/*var a = new List();
+		a.append("a");
+		console.log(a.toString());*/
+		function readMovies(file){
+			var fso = new ActiveXObject('Scripting.FileSystemObject');
+			console.log(fso);
+			var oFile = fso.OpenTextFile(file,1,true); 
+			var arr = oFile.ReadAll().split('\n');
+			for(var i = 0 ; i < arr.length ; i++){
+				arr[i] = arr[i].trim();
+			}
+			console.log(arr);
+			return arr;
+		}
+
+		arr = ['5511/ 教父（1、2）：经典黑帮片，有此作品，其他同类一概低头。' 
+				,'9996/ 美国往事：整个人生都在里面。 '
+				,'4463/ 天堂电影院：每个男人的童年回忆，太经典了。' 
+				,'2760/ 无主之城：人家怎么能拍出这么牛的电影！ '
+				,'1147/ 活着：也许是中国目前最伟大的电影。 '
+				,'1135/ 阿甘正传：教导所有的人要去宽容别人，傻就是福气。' 
+				,'1394/ 勇敢的心：民族自尊的好教材，希望大家要爱中国。' 
+				,'1816/ 楚门的世界：探讨人的价值和人性根本的奇思怪作。' 
+				,'5935/ 音乐之声：音乐的力量、音乐的快乐！ '
+				,'11）1041/ 辛德勒的名单：震撼人心的历史、充满感染力的摄影和杰出的演员。'
+				,'3971/ 星球大战系列：开创了一个电影神话。 '
+				,'2045/ 异次元骇客（第十三层）：应该说它比黑客帝国的构思更精妙。' 
+				,'4954/ 超人：所有漫画类科幻电影的代表。 '
+				,'4070/ 终结者（1、2）：科幻电影经典中的经典。 '
+				,'1378/ 12猴子：如此引人深思的科幻电影真不多见。 '
+				,'2051/ 黑客帝国系列：引发了对现实和未来网络发展的思考，形成了一种黑客文化。' 
+				,'1828/ 移魂都市（黑暗城市）：风格另类的科幻片，结尾出人意表。' 
+				,'1649/ 超时空接触：比较严肃地探讨外星文明问题的力作。 '
+				,'589/ 千钧一发：描写未来社会人的基因问题的惊险影片，内容和主题俱佳。 '
+				,'2001漫游太空：经典作品，以严肃的科学性和预见性著称。' ]
+
+		var moviesList = new List();
+		for(var i = 0 ; i < arr.length ;i ++){
+			
+			moviesList.append(arr[i]);
+		}
+
+		function displayList(list){
+			for(list.front(); list.currPos() < list.length() - 1; list.next()){
+				if(list.getElement() instanceof Customer){
+					console.log(list.getElement()["name"] + "," + list.getElement()["movie"]);
+				}
+				else{
+					console.log(list.getElement());
+				}
+			}
+			if(list.getElement() instanceof Customer){
+					console.log(list.getElement()["name"] + "," + list.getElement()["movie"]);
+				}
+				else{
+					console.log(list.getElement());
+				}
+		}
+
+		function Customer(name,movie){
+			this.name = name;
+			this.movie = movie;
+		}
+		var customers = new List();
+
+		function checkOut(name,movie,filmList,customerList){
+			if(moviesList.contains(movie)){
+				var customer = new Customer(name,movie);
+				customers.append(customer);
+				filmList.remove(movie);
+			}
+			else{
+				print(movie + "is not available.");
+			}
+		}
+		console.log("可借书目");
+		displayList(moviesList);
+		var movieName = prompt("请输入书名：",'');
+		var customerName = prompt("请输入customerName：",'');
+		checkOut(customerName,movieName,moviesList,customers);
+		console.log("可借书目");
+		displayList(moviesList);
+		console.log("借书人");
+		displayList(customers);
+	</script>
+</body>
+</html>

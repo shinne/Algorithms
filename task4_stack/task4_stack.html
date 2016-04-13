@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<script>
+		function Stack(){
+			this.dataStore = [];
+			this.top = 0;
+		}
+
+		Stack.prototype.push = function(element){
+			this.dataStore[this.top++] = element;
+		}
+
+		Stack.prototype.pop = function(){
+			return this.dataStore[--this.top];
+		}
+
+		Stack.prototype.peek = function(){
+			return this.dataStore[this.top-1];
+		}
+
+		Stack.prototype.length = function(){
+			return this.top;
+		}
+
+		Stack.prototype.clear = function(){
+			this.top = 0;
+		}
+
+
+		var stack = new Stack();
+		console.log(stack);
+		stack.push("b");
+		stack.push("c");
+		console.log(stack.length());
+		stack.pop();
+		console.log(stack.length());
+		stack.pop();
+		stack.pop();
+		stack.pop();
+		console.log(stack.peek());
+		stack.push("a");
+
+
+		//数制间的互相转换
+		console.log("数字间的转换")
+		function mulBase(num,base){
+			var s = new Stack();
+			do{
+				s.push(num % base);
+				num = Math.floor(num/base);
+			}while(num > 0);
+			console.log(s);
+			var result = "";
+			/*console.log(s.length());*/
+			while(s.length() > 0){
+				result += s.pop();
+				/*console.log(result);*/
+			}
+			return result;
+		}
+
+		console.log(mulBase(10,2));
+		console.log("数字间的转换");
+
+
+		//回文判断
+		console.log("回文判断")
+		function isHuiWen(word){
+			var s = new Stack();
+			for(var i = 0 ; i < word.length ; i++){
+				s.push(word[i]);
+			}
+			var reverse = "";
+			while(s.length() > 0){
+				reverse += s.pop();
+			}
+
+			if(reverse == word){
+				return true;
+			}
+			else{
+				return false;
+			}
+		}
+
+
+		console.log(isHuiWen("weeerr"));
+		console.log(isHuiWen("racecar"));
+		console.log("回文判断");
+
+
+		//计算阶乘
+		console.log("计算阶乘");
+		function fact(word){
+			var s = new Stack();
+			while(word > 0){
+				s.push(word --);
+			}
+			var result = 1;
+			while(s.length() > 0){
+				result *= s.pop();
+			}
+			return result;
+		}
+
+
+		console.log(fact(5));
+		console.log(fact(6));
+		console.log("计算阶乘");
+
+
+
+
+
+		//符号匹配
+		console.log("符号匹配");
+		function match(s){
+			var stack = new Stack();
+			for(var i = 0 ; i < s.length ; i++){
+				var lR = leftRight(s[i]);
+				var p;
+				var matched = true;
+				if(lR == "l"){
+					stack.push(s[i]);
+				}
+				else if(lR == "r"){
+					p = stack.pop();
+					matched = isPeiDui(p,s[i]);
+					if(matched == false){
+						break;
+					}	
+				}				
+			}
+			if(stack.length() == 0 && matched == true){
+				return true;
+			}
+			else{
+				return false;
+			}
+		}
+
+
+		function leftRight(c){
+			if(c == '[' || c == '{' || c == "("){
+				return "l";
+			}
+			if(c == ']' || c == '}' || c == ")"){
+				return "r";
+			}
+		}
+
+		function isPeiDui(left,right){
+			if(left == "["){
+				if(right == "]"){
+					return true;
+				}
+			}
+
+			else if(left == "{"){
+				if(right == "}"){
+					return true;
+				}
+			}
+
+			else if(left == "("){
+				if(right == ")"){
+					return true;
+				}
+			}
+			else{
+				return false;
+			}
+		}
+		console.log(match('[[]](){}'));
+		console.log(match('[[]](){]'));
+		console.log(match('[3[4])](d){]'));
+		console.log("符号匹配");
+
+
+
+		//移除黄色糖果
+		console.log("移除黄色糖果")
+		function removeYellow(cookie){
+			var s = new Stack();
+			for(var i = 0 ; i < cookie.length ; i++){
+				if(cookie[i] != "yellow"){
+					s.push(cookie[i]);
+				}	
+				else{
+				}
+			}
+			var result = new Stack();
+			while(s.length() > 0){
+				result.push(s.pop());
+			}
+			var last = new Stack();
+			while(result.length() > 0){
+				console.log(result);
+				last.push(result.pop());
+			}
+			return last;
+		}
+
+		var cookie = ['yellow','red','blue','blue','yellow','red','red','blue','yellow'];
+		console.log(removeYellow(cookie));
+		console.log("移除黄色糖果");
+
+
+
+
+		//中缀表达式换算成后缀表达式
+		console.log("中缀表达式换算成后缀表达式")
+		function middelToBehind(s){
+			var stack = new Stack();
+			var array = s.split(" ");
+			for(var i = 0 ; i < array.length ; i++){
+				var re = new RegExp('\d+','gi');
+				var num = parseInt(array[i]);
+						var a = '-' == '+';
+				console.log(a + "df");
+				//如果是数字的时候
+				if(!isNaN(num)){
+					console.log(+ num);
+				}
+				
+				else{
+					if(stack.length() == 0){
+						stack.push(num);
+					}
+					else{
+						
+					}
+				}
+
+					
+			}
+		}
+
+		console.log(middelToBehind("1 + 2 / ( 3 + 4 )"));
+
+		var cookie = ['yellow','red','blue','blue','yellow','red','red','blue','yellow'];
+		console.log(removeYellow(cookie));
+		console.log("中缀表达式换算成后缀表达式");
+
+
+	</script>
+</body>
+</html>
