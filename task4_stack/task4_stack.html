@@ -211,43 +211,6 @@
 		console.log("移除黄色糖果");
 
 
-
-
-		//中缀表达式换算成后缀表达式
-		console.log("中缀表达式换算成后缀表达式")
-		function middelToBehind(s){
-			var stack = new Stack();
-			var array = s.split(" ");
-			for(var i = 0 ; i < array.length ; i++){
-				var re = new RegExp('\d+','gi');
-				var num = parseInt(array[i]);
-						var a = '-' == '+';
-				console.log(a + "df");
-				//如果是数字的时候
-				if(!isNaN(num)){
-					console.log(+ num);
-				}
-				
-				else{
-					if(stack.length() == 0){
-						stack.push(num);
-					}
-					else{
-						
-					}
-				}
-
-					
-			}
-		}
-
-		console.log(middelToBehind("1 + 2 / ( 3 + 4 )"));
-
-		var cookie = ['yellow','red','blue','blue','yellow','red','red','blue','yellow'];
-		console.log(removeYellow(cookie));
-		console.log("中缀表达式换算成后缀表达式");
-
-
 	</script>
 </body>
 </html>
